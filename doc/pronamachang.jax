@@ -1,0 +1,55 @@
+pronamachang.txt		プロ生ちゃんを Vim から再生する為のプラグインです。
+
+
+==============================================================================
+概要						*pronamachang-introduction*
+
+*pronamachang* はプロ生ちゃんのボイスを Vim から再生するためのプラグインです。
+音声データ(.wav)は以下のサイトからダウンロードする必要があります。
+
+- "プロ生ちゃん"
+ http://pronama.azurewebsites.net/pronama/download/
+
+-Require vim plugins
+  vimproc - https://github.com/Shougo/vimproc.vim
+  sound.vim - https://github.com/osyo-manga/vim-sound
+
+
+==============================================================================
+使い方						*pronamachang-usage*
+
+ダウンロードしてきた音声データのディレクトリパスを設定する必要ああります。
+
+Example: >
+	" C:/voice に kei_voice_01 が保存されている場合
+	let g:pronamachang_voice_root = "C:/voice"
+	
+	" ファイルのボイスを再生します。
+	" 再生は非同期で再生されます。
+	:PronamachangSay kei_voice_008_phrase1
+<
+
+==============================================================================
+インターフェース				*pronamachang-interface*
+
+------------------------------------------------------------------------------
+コマンド					*pronamachang-commands*
+
+:PronamachangSay {voice}
+	{voice} を再生します。
+	{voice} にはダウンロードしてきた音声データのファイル名を渡します。
+
+
+==============================================================================
+設定						*pronamachang-setting*
+
+------------------------------------------------------------------------------
+変数						*pronamachang-variables*
+
+g:pronamachang_voice_root			*g:pronamachang_voice_root*
+	ボイスデータの保存先を設定します。
+	この変数に設定されたディレクトリの直下に kei_voice_01 や kei_voice_02
+	ディレクトリが保存されているようにして下さい。
+
+==============================================================================
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
