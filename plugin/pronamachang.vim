@@ -10,13 +10,9 @@ set cpo&vim
 let g:pronamachang_voice_root = get(g:, "pronamachang_voice_root", "")
 let g:pronamachang_goodbye_wait = get(g:, "pronamachang_goodbye_wait", "2000ms")
 
-if !exists('g:pronamachang_say_startup_enable')
-  let g:pronamachang_say_startup_enable = 0
-endif
+let g:pronamachang_say_startup_enable = get(g:, "pronamachang_say_startup_enable", 0)
+let g:pronamachang_say_goodbye_enable = get(g:, "pronamachang_say_goodbye_enable", 0)
 
-if !exists('g:pronamachang_say_goodbye_enable')
-  let g:pronamachang_say_goodbye_enable = 0
-endif
 
 function! s:voice_complete_kei(arglead, ...)
 	return filter(pronamachang#voice_list(), "v:val =~? '".a:arglead."'")
