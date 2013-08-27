@@ -3,8 +3,39 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 
+let g:pronamachang#default_hour_zone = {
+\	"morning"   : ["5", "11"],
+\	"afternoon" : ["12", "17"],
+\	"night"     : ["18", "3"],
+\	"all"       : ["0", "23"]
+\}
 
-let g:pronamachang#default_voice_string_list = {
+" all       : "はじめるよ", "今日もどんどんコード書いていこう", "さーて、作業再開ね",
+" morning   : "おはよう"
+" afternoon : "こんにちわ"
+" night     : "こんばんわ", "プログラミングって夜のほうが捗るよね",
+let g:pronamachang#default_startup_voices = {
+\	"all"       : ["kei_voice_008_phrase2", "kei_voice_055", "kei_voice_084"],
+\	"morning"   : ["kei_voice_008_phrase1"],
+\	"afternoon" : ["kei_voice_009_phrase1"],
+\	"night"     : ["kei_voice_010_phrase1", "kei_voice_010_phrase3"],
+\}
+
+
+" all       : "また来てね", "しゅーりょう", "お・わ・り、だよ！", "おっわりっだよ！", "また来てねっ！", "はいっ、終了ー",
+" morning   : "ログオフしてちょっと休憩ね",
+" afternoon : "今日も結構がんばってたね", "ログオフしてちょっと休憩ね",
+" night     : "おやすみ", "今日も結構がんばってたね", "ゆっくりねて、続きは明日だね", "今日も1日お疲れ様",
+let g:pronamachang#default_goodbye_voices = {
+\	"all"       : ["kei_voice_018_phrase1", "kei_voice_060", "kei_voice_061_a", "kei_voice_061_b", "kei_voice_086_phrase2", "kei_voice_081"],
+\	"morning"   : ["kei_voice_083"],
+\	"afternoon" : ["kei_voice_011_phrase2", "kei_voice_083"],
+\	"night"     : ["kei_voice_011_phrase1", "kei_voice_011_phrase2", "kei_voice_011_phrase3", "kei_voice_017_phrase2"],
+\}
+
+
+
+let s:voice_string_list = {
 \	"kei_voice_008_phrase1" : "おはよう",
 \	"kei_voice_008_phrase2" : "今日もどんどんコード書いていこう",
 \	"kei_voice_009_phrase1" : "こんにちわ",
@@ -178,7 +209,7 @@ let g:pronamachang#default_voice_string_list = {
 \	"kei_voice_105" : "BackSpace",
 \	"kei_voice_106" : "Esc",
 \	"kei_voice_107" : "Windows",
-\	"kei_voice_108" : "コントロール",
+\	"kei_voice_108" : "Ctrl",
 \	"kei_voice_109" : "Alt",
 \	"kei_voice_110" : "Shift",
 \	"kei_voice_111" : "Tab",
@@ -202,6 +233,36 @@ function! pronamachang#clear_cache_voice_files()
 endfunction
 
 
+function! pronamachang#hour_zones(hour)
+	let zones = extend(copy(g:pronamachang#default_hour_zone), get(g:, "pronamachang_hour_zone", {}))
+	let result = []
+	for [zone, region] in items(zones)
+		let [start, end] = region
+		if start <= a:hour && a:hour <= end
+			call add(result, zone)
+		endif
+	endfor
+	return result
+endfunction
+
+
+function! pronamachang#startup_voices(...)
+	let hour = get(a:, 1, str2nr(strftime("%H", localtime())))
+	let zones = pronamachang#hour_zones(hour)
+	let voices = extend(copy(g:pronamachang#default_startup_voices), get(g:, "pronamachang_startup_voices", {}))
+	return eval(join(values(filter(voices, "index(zones, v:key) != -1")), '+'))
+endfunction
+
+
+function! pronamachang#goodbye_voices(...)
+	let hour = get(a:, 1, str2nr(strftime("%H", localtime())))
+	let zones = pronamachang#hour_zones(hour)
+	let voices = extend(copy(g:pronamachang#default_goodbye_voices), get(g:, "pronamachang_goodbye_voices", {}))
+	return eval(join(values(filter(voices, "index(zones, v:key) != -1")), '+'))
+endfunction
+
+
+
 function! pronamachang#voice_files()
 	if exists("s:cache_voice_files")
 		return copy(s:cache_voice_files)
@@ -219,7 +280,7 @@ endfunction
 function! pronamachang#to_say_string(voice)
 	return filereadable(a:voice)
 \		 ? pronamachang#to_say_string(fnamemodify(a:voice, ':t:r'))
-\		 : get(g:pronamachang#default_voice_string_list, a:voice, "")
+\		 : get(s:voice_string_list, a:voice, "")
 endfunction
 
 function! pronamachang#to_fullpath(voice)
