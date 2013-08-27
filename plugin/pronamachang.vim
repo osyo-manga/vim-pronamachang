@@ -8,7 +8,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 let g:pronamachang_voice_root = get(g:, "pronamachang_voice_root", "")
-
+let g:pronamachang_goodbye_wait = get(g:, "pronamachang_goodbye_wait", "2000ms")
 
 
 function! s:voice_complete_kei(arglead, ...)
@@ -30,10 +30,10 @@ command! -bar
 augroup pronamachang
 	autocmd!
 	autocmd VimEnter *
-\	if g:pronamachang_say_startup_enable | PronamachangStartupSay | endif
+\		if g:pronamachang_say_startup_enable | PronamachangStartupSay | endif
 
 	autocmd VimLeave *
-\	if g:pronamachang_say_goodbye_enable | PronamachangGoodbyeSay | endif
+\		if g:pronamachang_say_goodbye_enable | PronamachangGoodbyeSay| execute "sleep" g:pronamachang_goodbye_wait | endif
 augroup END
 
 

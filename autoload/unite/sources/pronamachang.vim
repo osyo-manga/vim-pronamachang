@@ -29,7 +29,7 @@ function! s:source.gather_candidates(args, context)
 	let voices = map(pronamachang#voice_files(), '[v:val, fnamemodify(v:val, ":t:r")]')
 	
 	return map(voices, '{
-\		"word" : printf("%-25S : %-12S", v:val[1], pronamachang#to_say_string(v:val[1])),
+\		"word" : printf("%-21S : %s", v:val[1], pronamachang#to_say_string(v:val[1])),
 \		"kind" : ["file", "command"],
 \		"action__text" : v:val[1],
 \		"action__command" : "PronamachangSay " . v:val[1],

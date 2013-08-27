@@ -8,7 +8,7 @@ pronamachang.txt		プロ生ちゃんを Vim から再生する為のプラグイ
 音声データ(.wav)は以下のサイトからダウンロードする必要があります。
 
 - "プロ生ちゃん"
- http://pronama.azurewebsites.net/pronama/download/
+  http://pronama.azurewebsites.net/pronama/download/
 
 -Require vim plugins
   vimproc - https://github.com/Shougo/vimproc.vim
@@ -119,6 +119,14 @@ Default: >
 	\	"afternoon" : ["kei_voice_011_phrase2", "kei_voice_083"],
 	\	"night"     : ["kei_voice_011_phrase1", "kei_voice_011_phrase2", "kei_voice_011_phrase3", "kei_voice_017_phrase2"],
 	\}
+<
+
+g:pronamachang_goodbye_wait			*g:pronamachang_goodbye_wait*
+	終了時の待ち時間を設置します。
+	|:sleep| に設定できる文字列が設定できます。
+	終了時にボイスが再生されない場合にこの値を大きくして試してみて下さい。
+Default: >
+	let g:pronamachang_goodbye_wait = "500ms"
 <
 
 
