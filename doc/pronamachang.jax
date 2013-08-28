@@ -83,7 +83,6 @@ Default: >
 	\}
 <
 
-
 g:pronamachang_startup_voices			*g:pronamachang_startup_voices*
 	起動時に再生するボイスの辞書を設定します。
 	デフォルトでは |g:pronamachang#default_startup_voices| の値が使用さ
@@ -128,6 +127,42 @@ g:pronamachang_goodbye_wait			*g:pronamachang_goodbye_wait*
 Default: >
 	let g:pronamachang_goodbye_wait = "500ms"
 <
+
+
+
+==============================================================================
+automatic					*pronamachang-automatic-setting*
+
+|automatic-setter| で使用することができます。
+
+
+				*automatic-setter-pronamachang_voices*
+- "pronamachang_say"
+  プロ生ちゃんがしゃべります。
+
+  名前				型		説明~
+  pronamachang_random_voices	(リスト)	リスト内のボイスをランダムで
+  						再生します。
+
+Example: >
+	" 起動直後に "pronamachang_random_voices" に設定されたボイスをランダム
+	" で再生する
+	let g:automatic_config = [
+	\	{
+	\		"match" : {
+	\			"autocmds" : ["GUIEnter"],
+	\			"is_open_other_window" : 0
+	\		},
+	\		"set" : {
+	\			"pronamachang_random_voices" : [
+	\				"kei_voice_032_phrase1",
+	\				"kei_voice_023_phrase2"
+	\			]
+	\		},
+	\	},
+	\]
+<
+
 
 
 ==============================================================================
