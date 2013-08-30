@@ -15,12 +15,12 @@ let g:pronamachang_say_goodbye_enable = get(g:, "pronamachang_say_goodbye_enable
 
 
 function! s:voice_complete_kei(arglead, ...)
-	return filter(pronamachang#voice_list(), "v:val =~? '".a:arglead."'")
+	return filter(pronamachang#voice_list(), "get(split(v:val, ' '), 1, v:val) =~? '".a:arglead."'")
 endfunction
 
-command! -nargs=? -complete=customlist,s:voice_complete_kei
+command! -nargs=+ -complete=customlist,s:voice_complete_kei
 \	PronamachangSay
-\	call pronamachang#say(<q-args>)
+\	call pronamachang#say([<f-args>])
 
 
 command! -bar

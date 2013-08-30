@@ -147,7 +147,7 @@ let s:voice_string_list = {
 \	"kei_voice_072" : "しぃっ！",
 \	"kei_voice_073" : "よんっ！",
 \	"kei_voice_074" : "ごっ！",
-\	"kei_voice_075" : "ろくっ”！",
+\	"kei_voice_075" : "ろくっ！",
 \	"kei_voice_076" : "ななっ！",
 \	"kei_voice_077" : "はちっ！",
 \	"kei_voice_078" : "くっ！",
@@ -293,7 +293,10 @@ function! pronamachang#to_fullpath(voice)
 endfunction
 
 function! pronamachang#say(voice)
-	call sound#play_wav(pronamachang#to_fullpath(a:voice))
+	if type(a:voice) != type([])
+		return pronamachang#say([a:voice])
+	endif
+	call sound#play_wav(map(a:voice, "pronamachang#to_fullpath(v:val)"))
 endfunction
 
 

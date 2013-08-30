@@ -15,20 +15,22 @@ let s:source = {
 \	"action_table" : {
 \		"preview" : {
 \			"is_quit" : 0,
+\			"is_selectable" : 1,
 \		},
 \		"say" : {
+\			"is_selectable" : 1,
 \		}
 \	}
 \}
 
 
-function! s:source.action_table.preview.func(candidate)
-	call pronamachang#say(a:candidate.action__text)
+function! s:source.action_table.preview.func(candidates)
+	call pronamachang#say(map(deepcopy(a:candidates), "v:val.action__text"))
 endfunction
 
 
-function! s:source.action_table.say.func(candidate)
-	call pronamachang#say(a:candidate.action__text)
+function! s:source.action_table.say.func(candidates)
+	call pronamachang#say(map(deepcopy(a:candidates), "v:val.action__text"))
 endfunction
 
 
