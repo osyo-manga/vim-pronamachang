@@ -28,6 +28,9 @@ Example: >
 	" ファイルのボイスを再生します。
 	" 再生は非同期で再生されます。
 	:PronamachangSay kei_voice_008_phrase1
+
+	" 複数のボイスを渡せば、その順番で連続して再生します
+	:PronamachangSay kei_voice_008_phrase1 kei_voice_008_phrase2
 	
 	" unite.vim で一覧を出力
 	:Unite pronamachang
@@ -90,6 +93,8 @@ g:pronamachang_startup_voices			*g:pronamachang_startup_voices*
 	て使用します。
 	この辞書は以下のように時間帯ごとに設定を行います。
 	複数のボイスが設定されている場合はランダムで再生が行われます。
+	リスト内のボイスがリストであればそのリストのボイスを連続して再生しま
+	す。
 	また、時間帯は |g:pronamachang_hour_zone| で設定を行うことができます。
 Default: >
 	" all       : "はじめるよ", "今日もどんどんコード書いていこう", "さーて、作業再開ね",
@@ -102,6 +107,14 @@ Default: >
 	\	"afternoon" : ["kei_voice_009_phrase1"],
 	\	"night"     : ["kei_voice_010_phrase1", "kei_voice_010_phrase3"],
 	\}
+	
+	" 次のようにボイスにリストを設定すれば、連続してボイスを再生する
+	let g:pronamachang_startup_voices = {
+	\		"all" : [
+	\			["kei_voice_008_phrase1", "kei_voice_011_phrase2"],
+	\			["kei_voice_010_phrase1", "kei_voice_013_phrase2"],
+	\		],
+	\	}
 <
 
 g:pronamachang_goodbye_voices			*g:pronamachang_goodbye_voices*
@@ -147,6 +160,8 @@ automatic					*pronamachang-automatic-setting*
 Example: >
 	" 起動直後に "pronamachang_random_voices" に設定されたボイスをランダム
 	" で再生する
+	" g:pronamachang_startup_voices と同様にボイスがリストであればその順番
+	" で連続して再生する
 	let g:automatic_config = [
 	\	{
 	\		"match" : {
